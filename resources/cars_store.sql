@@ -76,8 +76,20 @@ from car
        left join engine on car.engine_id = engine.id
        left join transmission on car.transmission_id = transmission.id;
 
-select *
-from car
-       full join body b on car.body_id = b.id
-       full join engine e on car.engine_id = e.id
-       full join transmission t on car.transmission_id = t.id where car is null;
+select body.model, body.manufacturer
+from body
+         left join car
+                   on body.id = car.body_id
+where car.id is null
+union
+select engine.model, engine.manufacturer
+from engine
+         left join car
+                   on engine.id = car.body_id
+where car.id is null
+union
+select transmission.model, transmission.manufacturer
+from transmission
+         left join car
+                   on transmission.id = car.body_id
+where car.id is null;
