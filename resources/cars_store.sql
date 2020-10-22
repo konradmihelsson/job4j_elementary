@@ -80,14 +80,14 @@ select body.model, body.manufacturer
 from body
          left join car
                    on body.id = car.body_id
-where car.id is null
-union
+where car.id is null;
+
 select engine.model, engine.manufacturer
 from engine
          left join car
                    on engine.id = car.body_id
-where car.id is null
-union
+where car.id is null;
+
 select transmission.model, transmission.manufacturer
 from transmission
          left join car
