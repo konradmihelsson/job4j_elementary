@@ -56,6 +56,5 @@ with rsl as (select c.name as company_name,
            group by (c.id))
 select *
 from rsl
-where rsl.person_count = (
-  select max(rsl.person_count)
-  from rsl);
+order by rsl.person_count DESC
+limit 1;
