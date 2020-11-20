@@ -39,9 +39,16 @@ insert into requests (meeting_id, user_id, user_confirmation) VALUES (3, 2, 'uns
 insert into requests (meeting_id, user_id, user_confirmation) VALUES (3, 3, 'rejected');
 insert into requests (meeting_id, user_id, user_confirmation) VALUES (3, 4, 'rejected');
 
-select m.name, count(*)
-from requests r left join meetings m on r.meeting_id = m.id
-where user_confirmation = 'confirmed'
+with confirmed as (
+  select meeting_id, user_id
+  from requests
+  where user_confirmation = 'confirmed'
+)
+select m.name, count(r.user_id) as "num of invitees", count(confirmed.meeting_id) as "num of confirmed"
+from requests r
+  left join confirmed on r.meeting_id = confirmed.meeting_id
+                           and r.user_id = confirmed.user_id
+  left join meetings m on r.meeting_id = m.id
 group by m.name;
 
 with confirmed as (select meeting_id
